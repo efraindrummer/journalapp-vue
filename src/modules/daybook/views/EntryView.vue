@@ -34,10 +34,12 @@
         </div>
 
 
-        <!-- <img 
-            src="https://www.robertlandscapes.com/wp-content/uploads/2014/11/landscape-322100_1280.jpg" 
+        <img 
+            v-if="entry.picture && !localImage == null"
+            :src="entry.picture" 
             alt="entry-picture"
-            class="img-thumbnail"> -->
+            class="img-thumbnail">
+
         <img 
             v-if="localImage"
             :src="localImage" 
@@ -59,6 +61,7 @@ import { mapActions, mapGetters } from 'vuex' // computed!!!
 import Swal from 'sweetalert2'
 
 import getDayMonthYear from '../helpers/getDayMonthYear'
+import uploadImage from '../helpers/uploadImages'
 
 export default {
     props: {
@@ -121,6 +124,10 @@ export default {
             })
             Swal.showLoading()
 
+            const picture = await uploadImage(this.file)
+
+            this.entry.picture = picture
+
             if(this.entry.id){
                 //actualizar
                 await this.updateEntry(this.entry)
@@ -131,6 +138,7 @@ export default {
                 this.$router.push({ name: 'entry', params: { id }})
             }
 
+            this.file = null
             Swal.fire('Guardado', 'Entrada registrada con exito!', 'success')
 
         },
