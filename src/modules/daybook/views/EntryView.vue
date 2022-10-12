@@ -11,14 +11,14 @@
 
             <div>
 
-                <input type="file" @change="onSelectedImage">
+                <input type="file" @change="onSelectedImage" ref="imageSelector" v-show="false" accept="image/png, image/jpeg">
 
                 <button v-if="entry.id" class="btn btn-danger mx-2" @click="onDeleteEntry">
                     Borrar
                     <i class="fa fa-trash-alt"></i>
                 </button>
 
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" @click="onSelectImage">
                     Subir foto
                     <i class="fa fa-upload"></i>
                 </button>
@@ -170,7 +170,7 @@ export default {
             fr.readAsDataURL(file)
         },
         onSelectImage(){
-            
+            this.$refs.imageSelector.click()
         }
     },
 
